@@ -1,3 +1,3 @@
 <template>
-    <span>SEttings</span>
+    <div></div>
 </template>
