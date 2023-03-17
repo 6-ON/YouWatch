@@ -6,7 +6,7 @@ export const useSidebar = () => {
     }
   })
   const isCollapsed = () => state.value.collapsed
-  const isLocked = () => state.value.locked 
+  const isLocked = () => state.value.locked
 
   const hide = () => {
     if (!state.value.locked) {
@@ -14,7 +14,7 @@ export const useSidebar = () => {
     }
   }
   const show = () => {
-      state.value.collapsed = false
+    state.value.collapsed = false
   }
   const setLocked = () => {
     state.value.collapsed = false
@@ -25,5 +25,5 @@ export const useSidebar = () => {
     state.value.locked = false
   }
 
-  return { hide,show, setLocked, isCollapsed,isLocked,setUnlocked }
+  return { state, hide, show, setLocked, isCollapsed, isLocked, setUnlocked }
 }
