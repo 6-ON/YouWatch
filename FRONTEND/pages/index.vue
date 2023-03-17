@@ -1,20 +1,25 @@
 <script setup>
 useHead({
-  title : 'Home'
+  title: 'Home'
 })
-const sidebar = useSidebar()
-onMounted(()=>{
-  sidebar.setLocked()
-})
-onUnmounted(()=>{
-  sidebar.setUnlocked()
-})
+definePageMeta({ layout: 'fixed-sidebar' });
 </script>
 
 <template>
-  <div>
-    Page: Home
-  </div>
+  <TransitionGroup name="fade-in" class="grid grid-cols-1 gap-y-4 xl:grid-cols-2 2xl:grid-cols-3 place-items-center p-4 bg-brown-1" tag="div" appear>
+      <VideoThumbnail v-for="n in 10" :key="n" ></VideoThumbnail>
+
+  </TransitionGroup>
 </template>
 
-<style scoped></style>
+<style >
+.fade-in-enter-active,
+.fade-in-leave-active {
+  transition: opacity 1s;
+}
+
+.fade-in-enter,
+.fade-in-leave-to {
+  opacity: 0;
+}
+</style>
