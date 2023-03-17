@@ -1,11 +1,9 @@
 <script setup>
-useHead({
-  
-})
+
 </script>
 <template>
   <div>
-    <NuxtLayout name="default">
+    <NuxtLayout>
       <NuxtPage></NuxtPage>
     </NuxtLayout>
   </div>
