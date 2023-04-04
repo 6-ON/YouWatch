@@ -1,3 +1,13 @@
+<script setup>
+useHead({
+    title:'settings'
+})
+
+</script>
 <template>
-    <div></div>
+    <div class="flex flex-col items-center">
+        <div class="flex">
+            
+        </div>
+    </div>
 </template>
