@@ -1,17 +1,19 @@
 <script setup>
 const sidebar = useSidebar()
 onMounted(() => {
-    sidebar.setLocked()
+    sidebar.lock()
 })
 onUnmounted(() => {
-    sidebar.setUnlocked()
+    sidebar.unlock()
 })
 </script>
 
 <template>
-    <div class="pt-16 pl-[20rem]">
-        <Sidebar></Sidebar>
+    <div>
         <Navbar></Navbar>
-        <slot />
+        <Sidebar></Sidebar>
+        <div class="transition-all duration-100" :class="{'pl-[15rem]':!sidebar.collapsed(),'pl-[4rem]':sidebar.collapsed() }">
+            <slot />
+        </div>
     </div>
 </template>
