@@ -2,7 +2,6 @@
 export default defineNuxtConfig({
     css: [
         '@/assets/style/fonts.css',
-        'animate.css/animate.min.css'
     ],
     modules :['@nuxtjs/tailwindcss', '@vueuse/nuxt']
 })
