@@ -1,7 +1,7 @@
 <script lang="ts" setup></script>
 
 <template>
-  <div class="pt-16">
+  <div class="">
     <Sidebar></Sidebar>
     <Navbar></Navbar>
     <slot />
