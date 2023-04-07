@@ -1,5 +1,3 @@
-import { AxiosError } from "axios"
-
 export const useAuth = () => {
     const { $axios } = useNuxtApp()
     type User = {
@@ -23,18 +21,23 @@ export const useAuth = () => {
     }
 
     const user = useState<User | null>('AuthUser', () => null);
-    const isAuthenticated = useLocalStorage('isAuthenticated', false)
+
+    const isAuthenticated = useCookie('isAuthenticated', { default: () => false });
+    watch(isAuthenticated, (value) => {
+        navigateTo('/')
+    })
+
     const getToken = async () => {
         await $axios.get('/sanctum/csrf-cookie');
     }
 
     async function login({ email, password }: loginData) {
 
-            await getToken();
-            const { status } = await $axios.post('/login', { email, password });
-            await fetchUser();
-            isAuthenticated.value = true;
-            return true;
+        await getToken();
+        const { status } = await $axios.post('/login', { email, password });
+        await fetchUser();
+        isAuthenticated.value = true;
+        return true;
 
     }
     //register method
@@ -49,12 +52,15 @@ export const useAuth = () => {
     async function logout() {
         try {
             await getToken()
-            const { status } = await $axios.post('/logout', {})
-            user.value = null
-            isAuthenticated.value = false
-            return true
+            const { status } = await $axios.post('/logout')
+            if (status === 204) {
+                isAuthenticated.value = false
+                user.value = null
+                return true
+            }else return false
         } catch (error) {
             console.log(error)
+            return false
         }
     }
     //fetch user method
@@ -63,7 +69,7 @@ export const useAuth = () => {
             const { data } = await $axios.get('/api/user')
             user.value = data
             return true
-        } catch ({ response: error }) {
+        } catch ({ response: error }:any) {
             if (error.status === 401) {
                 console.log(error.data.message)
             }
