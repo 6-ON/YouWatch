@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { AxiosError } from 'axios';
 
-definePageMeta({ layout: 'auth' })
+definePageMeta({ layout: 'auth', middleware: 'guest' })
 useHead({ title: 'Login', });
 const form = ref({
   email: '',
@@ -12,8 +12,22 @@ const auth = useAuth()
 const { pending, execute: login, error } = useAsyncData<any, AxiosError>(async () => (await auth.login(form.value)), { immediate: false })
 // fix pending true on first load
 pending.value = false
+const filled = ref(false)
+const canSubmit = computed(() => {
+  return filled.value && !pending.value
+})
 //map errors to form inputs
+// watch to enable login button
+watch(form, () => {
+  //check if all formq fields are filled
+  const isFilled = Object.values(form.value).every((value) => value)
 
+  if (isFilled) {
+    filled.value = true
+  } else {
+    filled.value = false
+  }
+}, { deep: true })
 
 
 </script>
@@ -55,13 +69,15 @@ pending.value = false
                 </div>
               </div>
               <button type="submit"
-                class="w-full text-white bg-brown-4 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">Sign
+              :disabled="!canSubmit"
+              :class="{'bg-brown-4': canSubmit, 'bg-gray-400': !canSubmit}"
+                class="w-full text-white  hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">Sign
                 in</button>
               <p class="text-sm font-light text-gray-500 ">
                 Don’t have an account yet? <NuxtLink to="/auth/register"
                   class="font-medium text-brown-4 hover:underline ">Sign up</NuxtLink>
               </p>
-              <div class="bg-red-100 p-4 rounded-md text-red-900">
+              <div v-if="error" class="bg-red-100 p-4 rounded-md text-red-900">
                 <span class="material-symbols-sharp mx-auto">
                   warning
                 </span>
