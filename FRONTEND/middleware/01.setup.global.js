@@ -3,8 +3,4 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
     if (isAuthenticated.value && !user.value) {
         await fetchUser()
     }
-    // watch for changes in isAuthenticated
-    watch(isAuthenticated, (value) => {
-        if (value) navigateTo('/')
-    })
 })
