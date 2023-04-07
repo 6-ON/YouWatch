@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-definePageMeta({ layout: 'auth' })
+definePageMeta({ layout: 'auth' ,middleware: 'guest'})
 useHead({ title: 'Register', });
 const form = ref({
   name: '',
