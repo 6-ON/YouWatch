@@ -2,48 +2,48 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Video\LikeRequest;
 use App\Models\Like;
+use App\Models\Video;
 use Illuminate\Http\Request;
 
 class LikeController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
-    {
-        //
-    }
+    public function store(LikeRequest $request, Video $video)
+    {;
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Like $like)
-    {
-        //
+        // store like
+        $video->likes()->create([
+            'user_id' => auth()->id(),
+            'isLiked' => $request->like
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Like $like)
+    public function update(Request $request, Video $video)
     {
-        //
+        // validate request
+        $request->validate([
+            'like' => 'required|boolean'
+        ]);
+        // update like
+        $video->likes()->where('user_id', auth()->id())->update([
+            'isLiked' => $request->like
+        ]);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Like $like)
+    public function destroy(Video $video)
     {
-        //
+        // delete like
+        $video->likes()->where('user_id', auth()->id())->delete();
     }
 }
