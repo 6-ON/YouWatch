@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Video;
 use Illuminate\Http\Request;
 use Spatie\Tags\Tag;
+use App\Http\Requests\Video\CreateRequest;
+use App\Http\Requests\Video\UpdateRequest;
 
 class VideoController extends Controller
 {
@@ -30,18 +32,8 @@ class VideoController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CreateRequest $request)
     {
-        // validate the request
-        $request->validate([
-            'title' => 'required|string',
-            'description' => 'required|string',
-            'duration' => 'required|string',
-            'url' => 'required|string',
-            'thumbnail_url' => 'required|string',
-            'tags' => 'required|array',
-            'tags.*' => 'string',
-        ]);
         // create the video
         $video = Video::create([
             'user_id' => auth()->id(),
@@ -70,18 +62,9 @@ class VideoController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Video $video)
+    public function update(UpdateRequest $request, Video $video)
     {
-        // validate the request given params sometimes
-        $request->validate([
-            'title' => 'sometimes|string',
-            'description' => 'sometimes|string',
-            'duration' => 'sometimes|string',
-            'url' => 'sometimes|string',
-            'thumbnail_url' => 'sometimes|string',
-            'tags' => 'sometimes|array',
-            'tags.*' => 'string',
-        ]);
+
         // update the video
         $video->update([
             'title' => $request->title,
