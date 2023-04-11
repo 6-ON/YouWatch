@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\CommentController;
+use App\Http\Controllers\LikeController;
+use App\Http\Controllers\VideoController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -14,6 +17,18 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
-    return $request->user();
+Route::get('/tags', [VideoController::class, 'tags']);
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/user', function (Request $request) {
+        return $request->user();
+    });
+    Route::get('/getSignature', 'App\Http\Controllers\CloudinaryController@getSignature');
+    Route::apiResource('videos', VideoController::class)->except(['index', 'show']);
+    Route::apiResource('videos.comments', CommentController::class)->except(['index', 'show']);
+    Route::apiSingleton('videos.likes', LikeController::class) 
+    ->creatable()
+    ->destroyable()
+    ->except(['index', 'show']);
 });
+
+Route::apiResource('videos', VideoController::class)->only(['index', 'show']);
