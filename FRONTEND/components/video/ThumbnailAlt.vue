@@ -17,8 +17,8 @@ const handleUnban = async () => {
 }
 </script>
 <template>
-    <div class="flex gap-2">
-        <div class="relative w-64 md:w-72 lg:w-80 xl:w-96">
+    <div class="flex gap-8 max-w-full max-sm:flex-col">
+        <div class="relative w-full md:w-72 lg:w-80 xl:w-96 sm:w-64">
             <NuxtLink :to="`/video/${video?.id}`">
                 <img :src="video?.thumbnail_url" alt="Video thumbnail" class="w-full h-full rounded-lg object-cover" />
                 <span
@@ -27,7 +27,7 @@ const handleUnban = async () => {
                 >
             </NuxtLink>
         </div>
-        <div class="flex items-center gap-4">
+        <div class="flex gap-4 items-center flex-1 ">
             <div class="flex flex-col justify-around h-full between font-Inter">
                 <NuxtLink to="#" class="text-xl font-semibold">{{ video?.title }}</NuxtLink>
                 <div class="flex items-center gap-2">
