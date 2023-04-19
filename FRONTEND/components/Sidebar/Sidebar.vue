@@ -33,6 +33,10 @@ const stateClass = computed(() => {
 				<SidebarLink to="/subscriptions" icon="subscriptions">
 					Subscriptions
 				</SidebarLink>
+				<!-- adiministarion -->
+				<SidebarLink to="/videos/banned" icon="admin_panel_settings">
+					Banned Video
+				</SidebarLink>
 			</div>
 
 			<div class="w-full mt-auto">
