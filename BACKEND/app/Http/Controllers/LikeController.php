@@ -17,7 +17,7 @@ class LikeController extends Controller
     {;
 
         // store like
-        $video->likes()->create([
+        $video->reactions()->create([
             'user_id' => auth()->id(),
             'isLiked' => $request->like
         ]);
@@ -33,7 +33,7 @@ class LikeController extends Controller
             'like' => 'required|boolean'
         ]);
         // update like
-        $video->likes()->where('user_id', auth()->id())->update([
+        $video->reactions()->where('user_id', auth()->id())->update([
             'isLiked' => $request->like
         ]);
     }
@@ -44,6 +44,6 @@ class LikeController extends Controller
     public function destroy(Video $video)
     {
         // delete like
-        $video->likes()->where('user_id', auth()->id())->delete();
+        $video->reactions()->where('user_id', auth()->id())->delete();
     }
 }
