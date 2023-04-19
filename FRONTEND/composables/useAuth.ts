@@ -1,14 +1,6 @@
 export const useAuth = () => {
     const { $axios } = useNuxtApp()
-    type User = {
-        id: number,
-        name: string,
-        image: string,
-        email: string,
-        username: string,
-        created_at: string,
-        updated_at: string
-    }
+
     type loginData = {
         email: string,
         password: string
@@ -22,7 +14,11 @@ export const useAuth = () => {
 
     const user = useState<User | null>('AuthUser', () => null);
 
-    const isAuthenticated = useCookie('isAuthenticated', { default: () => false });
+    const exp = new Date()
+    exp.setHours(exp.getHours() + 2)
+    const isAuthenticated = useCookie('isAuthenticated', { default: () => false, expires: exp });
+    //create cookie that expires in 2 hours
+
     watch(isAuthenticated, (value) => {
         navigateTo('/')
     })
@@ -57,7 +53,7 @@ export const useAuth = () => {
                 isAuthenticated.value = false
                 user.value = null
                 return true
-            }else return false
+            } else return false
         } catch (error) {
             console.log(error)
             return false
@@ -69,7 +65,7 @@ export const useAuth = () => {
             const { data } = await $axios.get('/api/user')
             user.value = data
             return true
-        } catch ({ response: error }:any) {
+        } catch ({ response: error }: any) {
             if (error.status === 401) {
                 console.log(error.data.message)
             }
