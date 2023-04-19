@@ -12,7 +12,7 @@
 						<h1 class="text-xl font-bold leading-tight tracking-tight  md:text-2xl ">
 							<slot name="title"></slot>
 						</h1>
-						<button @click="$emit('close')" class="text-gray-500 hover:text-gray-600">
+						<button v-if="closable" @click="$emit('close')" class="text-gray-500 hover:text-gray-600">
 							<svg class="w-6 h-6" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
 								viewBox="0 0 24 24" stroke="currentColor">
 								<path d="M6 18L18 6M6 6l12 12">
@@ -20,7 +20,7 @@
 							</svg>
 						</button>
 					</div>
-					<div class="p-4">
+					<div class="p-4 h-full flex flex-col">
 						<slot name="body"></slot>
 					</div>
 				</div>
@@ -34,4 +34,10 @@
 </template>
 <script setup>
 defineEmits(['close'])
+defineProps({
+	closable: {
+		type: Boolean,
+		default: true,
+	},
+})
 </script>
