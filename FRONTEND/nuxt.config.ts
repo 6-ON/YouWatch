@@ -3,5 +3,7 @@ export default defineNuxtConfig({
     css: [
         '@/assets/style/fonts.css',
     ],
-    modules :['@nuxtjs/tailwindcss', '@vueuse/nuxt']
+
+    modules :['@nuxtjs/tailwindcss', '@vueuse/nuxt','@nuxt/devtools'],
+    devtools: true
 })
