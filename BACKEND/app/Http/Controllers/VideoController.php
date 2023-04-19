@@ -22,11 +22,12 @@ class VideoController extends Controller
     public function index()
     {
         // check if the request has tags
-        return Video::with('tags')
-        ->paginate(10, pageName: 'p');
+        return Video::latest()
+            ->paginate(10, pageName: 'p');
     }
     public function tags()
     {
+
         return Tag::all();
     }
     /**
@@ -56,7 +57,18 @@ class VideoController extends Controller
      */
     public function show(Video $video)
     {
-        return $video->load('comments');
+        if (auth()->check() && !auth()->user()->lastWatchedVideo()?->is($video)) {
+            auth()->user()->history()->attach($video);
+        }
+        $video->user->loadCount('subscribers');
+        // $video->user->loadCount('subscribers');
+        return $video->load(['comments']);
+    }
+
+    public function view(Video $video)
+    {
+        $video->views_count++;
+        $video->save();
     }
 
     /**
