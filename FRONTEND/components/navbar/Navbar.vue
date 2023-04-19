@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-const { user,isAuthenticated } = useAuth()
+const { user, isAuthenticated,logout } = useAuth()
 </script>
 
 <template>
@@ -10,11 +10,36 @@ const { user,isAuthenticated } = useAuth()
     <div class="ml-auto mr-12">
       <CommonSearch class="hidden sm:block" />
     </div>
-    <div v-if="isAuthenticated && user" class="flex gap-8 items-center">
+    <div v-if="isAuthenticated" class="flex gap-8 items-center">
       <NuxtLink to="/upload">
         <IconsLibraryAdd class="w-8" />
       </NuxtLink>
-      <UserAvatar :image="user.image"></UserAvatar>
+      <Dropdown>
+        <template #trigger>
+          <ClientOnly>
+            <UserAvatar class="cursor-pointer" :image="user?.image"></UserAvatar>
+          </ClientOnly>
+        </template>
+        <template #content>
+          <div class="flex flex-col gap-2">
+            <NuxtLink to="/profile">
+              <DropdownItem>
+                <span>Profile</span>
+              </DropdownItem>
+            </NuxtLink>
+            <NuxtLink :to="`/user/${user?.username}`">
+              <DropdownItem>
+                <span>My Videos</span>
+              </DropdownItem>
+            </NuxtLink>
+            <button @click="logout">
+              <DropdownItem>
+                <span>Logout</span>
+              </DropdownItem>
+            </button>
+          </div>
+        </template>
+      </Dropdown>
     </div>
     <NuxtLink to="/auth/login" v-else
       class="flex gap-3 items-center rounded-full border border-brown-3 px-2 py-0.5 hover:bg-brown-2 hover:bg-opacity-30">
