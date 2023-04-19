@@ -7,10 +7,12 @@ export const useSidebar = () => {
   const locked = () => state.value.locked
 
   const toggle = () => {
-      state.value.collapsed = !collapsed()
+    state.value.collapsed = !state.value.collapsed 
+    console.log(collapsed());
+    
   }
   const hide = () => {
-      state.value.collapsed = true
+    state.value.collapsed = true
   }
   const show = () => {
     state.value.collapsed = false
