@@ -16,6 +16,11 @@ const editForm = ref<TEdit>({
     email: user.value?.email ?? '',
     password: '',
 })
+const originalData = computed<TEdit>(() => {
+    if (!user.value) return {}
+    const { name, email } = user.value
+    return { name, email, password: '', image: null }
+})
 const imageURL = computed(() => (editForm.value.image ? URL.createObjectURL(editForm.value.image) : null))
 const updating = ref(false)
 const changes = computed(() => {
@@ -23,17 +28,13 @@ const changes = computed(() => {
     // get changes between original data and edit form
     return Object.keys(originalData.value).reduce<TEdit | any>((changes: TEdit, key) => {
         if (originalData.value[key] !== editForm.value[key]) {
+            if (changes === null) changes = {}
             changes[key] = editForm.value[key]
         }
         return changes
     }, null)
 })
 
-const originalData = computed<TEdit>(() => {
-    if (!user.value) return {}
-    const { name, email } = user.value
-    return { name, email, password: '', image: null }
-})
 
 async function uploadImage() {
     if (!editForm.value.image) throw new Error('No image selected')
@@ -48,7 +49,7 @@ async function uploadImage() {
     formData.append('timestamp', timestamp)
     return await $axios.post(UPLOAD_URL, formData)
 }
-
+const imageChange = (e:any)=> { editForm.value.image = e.target.files[0]}
 async function updateProfile() {
 	if (!changes.value) return
 	updating.value = true
@@ -59,9 +60,9 @@ async function updateProfile() {
 		}
 		await $axios.put('/api/user', changes.value)
 
-		$toast.success('Profile updated successfully')
+		// $toast.success('Profile updated successfully')
 	} catch (error) {
-		$toast.error(error.message)
+		// $toast.error(error.message)
 	} finally {
 		updating.value = false
 	}
@@ -74,14 +75,14 @@ async function updateProfile() {
             <div class="mx-auto mt-4 w-fit relative">
                 <UserAvatar :image="imageURL ?? user?.image" size="w-32 h-32 md:w-48 md:h-48" />
                 <label
-                    class="absolute bottom-0 right-0 w-10 h-10 bg-brown-4 text-brown-1 p-2 rounded-full peer-disabled:bg-brown-1"
+                    class="absolute cursor-pointer bottom-0 right-0 w-10 h-10 bg-brown-4 text-brown-1 p-2 rounded-full peer-disabled:bg-brown-1"
                 >
                     <input
                         type="file"
                         hidden
                         :disabled="updating"
                         accept="image/*"
-                        @change="(e:Event) => (editForm.image = e?.target?.files[0])"
+                        @change="imageChange"
                     />
                     <span class="material-symbols-sharp"> edit </span>
                 </label>
