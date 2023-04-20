@@ -13,6 +13,13 @@ declare global {
         created_at?: string;
         updated_at?: string;
     }
+    interface TEdit {
+        [key: string]: any
+        name?: string
+        email?: string
+        password?: string
+        image?: null
+    }
     interface CommentT {
         id?: number;
         body: string;
