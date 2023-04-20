@@ -18,6 +18,9 @@ const { user, isAuthenticated,logout } = useAuth()
         <template #trigger>
           <ClientOnly>
             <UserAvatar class="cursor-pointer" :image="user?.image"></UserAvatar>
+            <template #fallback>
+              <div class="w-12 h-12 rounded-full bg-brown-3 animate-pulse"></div>
+            </template>
           </ClientOnly>
         </template>
         <template #content>
