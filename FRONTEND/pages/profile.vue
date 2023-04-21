@@ -47,19 +47,26 @@ async function uploadImage() {
     formData.append('api_key', API_KEY)
     formData.append('folder', UPLOAD_FOLDER)
     formData.append('timestamp', timestamp)
-    return await $axios.post(UPLOAD_URL, formData)
+    $axios.defaults.withCredentials = false
+    const {data} = await $axios.post(UPLOAD_URL, formData)
+    $axios.defaults.withCredentials = true
+    return data
+
 }
 const imageChange = (e:any)=> { editForm.value.image = e.target.files[0]}
 async function updateProfile() {
 	if (!changes.value) return
 	updating.value = true
 	try {
-		if (changes.value.image) {
-			const { data } = await uploadImage()
-			changes.value.image = data.secure_url
+        const data  = changes.value
+		if (data.image) {
+			const { secure_url } = await uploadImage()
+			data.image = secure_url
 		}
-		await $axios.put('/api/user', changes.value)
-
+        console.log(data);
+		await $axios.put('/api/user', data)
+        console.log('done');
+        
 		// $toast.success('Profile updated successfully')
 	} catch (error) {
 		// $toast.error(error.message)
