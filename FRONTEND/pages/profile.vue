@@ -3,8 +3,16 @@ definePageMeta({
     layout: 'fixed-sidebar',
     middleware: 'auth',
 })
-
-const { user } = useAuth()
+useHead({
+    title: 'Profile',
+    meta: [
+        {
+            name: 'description',
+            content: 'Profile page',
+        },
+    ],
+})
+const { user,fetchUser } = useAuth()
 const UPLOAD_FOLDER = 'Youwatch'
 const API_KEY = '571349964156337'
 const UPLOAD_URL = 'https://api.cloudinary.com/v1_1/dgmmjsxbf/auto/upload'
@@ -64,7 +72,8 @@ async function updateProfile() {
 			data.image = secure_url
 		}
         console.log(data);
-		await $axios.put('/api/user', data)
+		await $axios.patch('/api/profile', data)
+        await fetchUser()
         console.log('done');
         
 		// $toast.success('Profile updated successfully')
