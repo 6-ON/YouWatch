@@ -60,7 +60,9 @@ class VideoController extends Controller
         if (auth()->check() && !auth()->user()->lastWatchedVideo()?->is($video)) {
             auth()->user()->history()->attach($video);
         }
+        $video->setAppends(['user_reaction']);
         $video->user->loadCount('subscribers');
+        $video->user->setAppends(['is_subscribed_to']);
         // $video->user->loadCount('subscribers');
         return $video->load(['comments']);
     }
