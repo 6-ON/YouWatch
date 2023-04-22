@@ -14,7 +14,7 @@ class Video extends Model
     protected $guarded = [];
     protected $with = ['user', 'tags'];
     protected $withCount = ['likes', 'comments'];
-    protected $appends = ['user_reaction'];
+    // protected $appends = ['user_reaction'];
     // protected $hidden = ['user_id', 'tags.pivot'];
 
     //boot method
