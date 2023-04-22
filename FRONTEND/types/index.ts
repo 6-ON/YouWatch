@@ -9,7 +9,7 @@ declare global {
         image: string;
         email_verified_at?: string;
         isAdmin: number;
-        is_subscribed_to: boolean;
+        is_subscribed_to: boolean|undefined;
         created_at?: string;
         updated_at?: string;
     }
