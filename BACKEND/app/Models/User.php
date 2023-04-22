@@ -44,8 +44,9 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'isAdmin' => 'boolean',
     ];
-    protected $appends = [ 'is_subscribed_to'];
+    // protected $appends = [ 'is_subscribed_to'];
     public function history()
     {
         return $this->belongsToMany(Video::class, History::class)
