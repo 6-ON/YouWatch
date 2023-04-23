@@ -19,14 +19,12 @@ class CommentController extends Controller
             'body' => 'required|string'
         ]);
         // store comment
-        $video->comments()->create([
+        $comment = $video->comments()->create([
             'user_id' => auth()->id(),
             'body' => $request->body
         ]);
         // return created response code
-        return response()->json([
-            'message' => 'Comment created successfully'
-        ], 201);
+        return response()->json($comment, 201);
     }
 
 
@@ -48,7 +46,7 @@ class CommentController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Comment $comment)
+    public function destroy(Video $video,Comment $comment)
     {
         // delete comment
         $comment->delete();
