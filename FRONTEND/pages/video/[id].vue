@@ -6,11 +6,15 @@ const { $axios } = useNuxtApp()
 const { data: video, pending } = useAsyncData<Video>('video', async () => ((await $axios.get(`api/videos/${route.params.id}`)).data), { server: false })
 const { data: videos, pending: videosPending } = useAsyncData<VideoList>(async () => (await $axios.get('/api/videos')).data)
 
-useAsyncData(async () => (await $axios.get(`/api/videos/${route.params.id}/view`)))
-
 useHead({
   title: video.value?.title,
 })
+useAsyncData(async () => (await $axios.get(`/api/videos/${route.params.id}/view`)))
+async function removeComment(comment: CommentT,index:number){
+  video.value?.comments?.splice(index,1)
+  if (video.value?.comments_count) video.value.comments_count--
+  await $axios.delete(`/api/videos/${route.params.id}/comments/${comment.id}`)
+}
 </script>
 
 
@@ -58,7 +62,7 @@ useHead({
         <div class="flex flex-col gap-3 p-1 sm:p-4 mt-10">
           <!-- single comment -->
           <ClientOnly>
-            <CommonComment v-for="comment in video.comments" :comment="comment" />
+            <CommonComment v-for="comment,index in video.comments" :comment="comment" @removed="removeComment(comment,index)" />
           </ClientOnly>
           <!-- single comment end -->
 
