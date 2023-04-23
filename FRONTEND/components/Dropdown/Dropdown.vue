@@ -11,8 +11,8 @@ onClickOutside(content, () =>  isOpen.value = false)
 </script>
 
 <template>
-  <div class="relative">
-      <div @click="isOpen = !isOpen">
+  <div class="relative h-fit w-fit">
+      <div class="cursor-pointer" @click="isOpen = !isOpen">
         <slot name="trigger"></slot>
       </div>
       <!-- transition pop with tailwind classes -->
