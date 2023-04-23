@@ -7,16 +7,12 @@ const props = defineProps<{
 const { user,isAuthenticated } = useAuth()
 const { execute, pending } = useAsyncData('SendComment',async () => {
   try {
-    await $axios.post(`/api/videos/${props.video.id}/comments`, { body: comment.value })
+    const {data:commented} = await $axios.post(`/api/videos/${props.video.id}/comments`, { body: comment.value })
+    if (user.value) {
+      props.video.comments?.unshift({...commented, user: user.value});
+    }
   } finally {
     props.video.comments_count++
-    if (user.value) {
-      props.video.comments?.unshift({
-        body: comment.value,
-        created_at: new Date().toISOString(),
-        user: user.value
-      });
-    }
     comment.value = ''
   }
 }, { immediate: false })
