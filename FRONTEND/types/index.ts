@@ -8,7 +8,7 @@ declare global {
         subscribers_count: number;
         image: string;
         email_verified_at?: string;
-        isAdmin: number;
+        isAdmin: boolean;
         is_subscribed_to: boolean|undefined;
         created_at?: string;
         updated_at?: string;
