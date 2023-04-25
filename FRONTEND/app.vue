@@ -1,7 +1,7 @@
 <script setup>
 useHead({
   link:[
-    { rel:'icon',href: './logo-icon.png'}
+    { rel:'icon',href: '/logo-icon.png'}
   ],
   bodyAttrs: {
     class: 'bg-brown-1'
