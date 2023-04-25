@@ -60,29 +60,31 @@ const handleUnban = async () => {
                     {{ formatter.format(video?.views_count) }} views • {{ useTimeAgo(video?.created_at).value }}
                 </p>
             </div>
-            <Dropdown class="ml-auto" v-if="user?.isAdmin">
-                <template #trigger>
-                    <button>
-                        <span class="material-symbols-sharp"> more_vert </span>
-                    </button>
-                </template>
-                <template #content>
-                    <div class="flex flex-col gap-2">
-                        <DropdownItem v-if="!video.banned_at">
-                            <button :disabled="banPending" class="w-full flex items-center gap-2" @click="handleBan">
-                                <span class="material-symbols-sharp"> report </span>
-                                <span>Ban</span>
-                            </button>
-                        </DropdownItem>
-                        <DropdownItem v-if="video.banned_at">
-                            <button :disabled="unbanPending" class="w-full flex items-center gap-2" @click="handleBan">
-                                <span class="material-symbols-sharp"> report </span>
-                                <span>Unban</span>
-                            </button>
-                        </DropdownItem>
-                    </div>
-                </template>
-            </Dropdown>
+            <ClientOnly>
+                <Dropdown class="ml-auto" v-if="user?.isAdmin">
+                    <template #trigger>
+                        <button>
+                            <span class="material-symbols-sharp"> more_vert </span>
+                        </button>
+                    </template>
+                    <template #content>
+                        <div class="flex flex-col gap-2">
+                            <DropdownItem v-if="!video.banned_at">
+                                <button :disabled="banPending" class="w-full flex items-center gap-2" @click="handleBan">
+                                    <span class="material-symbols-sharp"> report </span>
+                                    <span>Ban</span>
+                                </button>
+                            </DropdownItem>
+                            <DropdownItem v-if="video.banned_at">
+                                <button :disabled="unbanPending" class="w-full flex items-center gap-2" @click="handleBan">
+                                    <span class="material-symbols-sharp"> report </span>
+                                    <span>Unban</span>
+                                </button>
+                            </DropdownItem>
+                        </div>
+                    </template>
+                </Dropdown>
+            </ClientOnly>
         </div>
     </div>
 </template>
