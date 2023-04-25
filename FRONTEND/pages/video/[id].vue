@@ -1,14 +1,11 @@
 <script lang="ts" setup>
+import { useTitle } from '@vueuse/core'
 const route = useRoute()
-
 
 const { $axios } = useNuxtApp()
 const { data: video, pending } = useAsyncData<Video>('video', async () => ((await $axios.get(`api/videos/${route.params.id}`)).data), { server: false })
 const { data: videos, pending: videosPending } = useAsyncData<VideoList>(async () => (await $axios.get('/api/videos')).data)
-
-useHead({
-  title: video.value?.title,
-})
+useTitle(computed(() => video.value?.title || '...'))
 useAsyncData(async () => (await $axios.get(`/api/videos/${route.params.id}/view`)))
 async function removeComment(comment: CommentT,index:number){
   video.value?.comments?.splice(index,1)
