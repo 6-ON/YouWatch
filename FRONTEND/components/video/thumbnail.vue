@@ -14,6 +14,8 @@ const props = defineProps({
         default: false,
     },
 })
+
+const { user } = useAuth()
 const emits = defineEmits(['banChange'])
 const { videoBan, videoUnban } = useVideoBan(props.video.id)
 const { pending: banPending, execute: banVideo } = videoBan
@@ -58,7 +60,7 @@ const handleUnban = async () => {
                     {{ formatter.format(video?.views_count) }} views • {{ useTimeAgo(video?.created_at).value }}
                 </p>
             </div>
-            <Dropdown class="ml-auto">
+            <Dropdown class="ml-auto" v-if="user?.isAdmin">
                 <template #trigger>
                     <button>
                         <span class="material-symbols-sharp"> more_vert </span>

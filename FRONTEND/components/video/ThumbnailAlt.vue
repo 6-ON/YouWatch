@@ -15,6 +15,7 @@ const handleUnban = async () => {
     unbanVideo()
     emits('banChange')
 }
+const { user } = useAuth()
 </script>
 <template>
     <div class="flex gap-8 max-w-full max-sm:flex-col">
@@ -38,10 +39,10 @@ const handleUnban = async () => {
                 </div>
                 <p class="text-sm text-gray-600"> {{ video.description }}</p>
                 <p class="text-gray-500 text-xs">
-                    {{ formatter.format(video?.views_count) }} views • {{ useTimeAgo(new Date(video?.created_at)) }}
+                    {{ formatter.format(video?.views_count) }} views • {{ useTimeAgo(new Date(video?.created_at)).value }}
                 </p>
             </div>
-            <Dropdown class="ml-auto">
+            <Dropdown class="ml-auto" v-if="user?.isAdmin">
                 <template #trigger>
                     <button>
                         <span class="material-symbols-sharp"> more_vert </span>

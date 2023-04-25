@@ -1,4 +1,5 @@
 <script setup>
+const { user } = useAuth()
 const sidebar = useSidebar()
 const stateClass = computed(() => {
 	if (!sidebar.collapsed()) {
@@ -34,9 +35,11 @@ const stateClass = computed(() => {
 					Subscriptions
 				</SidebarLink>
 				<!-- adiministarion -->
-				<SidebarLink to="/videos/banned" icon="admin_panel_settings">
-					Banned Video
-				</SidebarLink>
+				<ClientOnly>
+					<SidebarLink v-if="user?.isAdmin" to="/videos/banned" icon="admin_panel_settings">
+						Banned Video
+					</SidebarLink>
+				</ClientOnly>
 			</div>
 
 			<div class="w-full mt-auto">
