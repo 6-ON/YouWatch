@@ -27,15 +27,16 @@ const handleUnban = async () => {
                 >
             </NuxtLink>
         </div>
-        <div class="flex gap-4 items-center flex-1 ">
-            <div class="flex flex-col justify-around h-full between font-Inter">
-                <NuxtLink to="#" class="text-xl font-semibold">{{ video?.title }}</NuxtLink>
-                <div class="flex items-center gap-2">
-                    <NuxtLink to="/user/test">
+        <div class="flex gap-4 items-center flex-1">
+            <div class="flex flex-col self-start font-Inter gap-2 ">
+                <NuxtLink :to="`/video/${video?.id}`" class="text-xl font-semibold mb-5">{{ video?.title }}</NuxtLink>
+                <div class="flex mb-2 items-center gap-2">
+                    <NuxtLink :to="`/user/${video?.user.username}`">
                         <UserAvatar size="w-8 h-8" :image="video?.user.image"> </UserAvatar>
                     </NuxtLink>
-                    <NuxtLink to="#" class="text-sm font-normal">{{ video?.user.name }}</NuxtLink>
+                    <NuxtLink :to="`/user/${video?.user.username}`" class="text-sm font-normal">{{ video?.user.name }}</NuxtLink>
                 </div>
+                <p class="text-sm text-gray-600"> {{ video.description }}</p>
                 <p class="text-gray-500 text-xs">
                     {{ formatter.format(video?.views_count) }} views • {{ useTimeAgo(new Date(video?.created_at)) }}
                 </p>
