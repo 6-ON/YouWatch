@@ -3,8 +3,13 @@ const props = defineProps<{
   user: User
 }>()
 const { $axios } = useNuxtApp()
+const { isAuthenticated } = useAuth()
 const subscribing = ref(false)
 async function subscribe() {
+  if (!isAuthenticated.value) {
+    navigateTo('/auth/login')
+    return
+  }
   try {
     subscribing.value = true
     if (props.user.is_subscribed_to) {
