@@ -53,9 +53,10 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::apiSingleton('videos.ban', VideoBanController::class)
         ->creatable()
-        ->destroyable()->only(['store', 'destroy']);
+        ->destroyable()->only(['store', 'destroy'])
+        ->middleware('verify.admin');
 
-    Route::get('banned/videos', BannedVideoController::class . '@index')->name('videos.ban.index');
+    Route::get('banned/videos', BannedVideoController::class . '@index')->name('videos.ban.index')->middleware('verify.admin');
 
 
     Route::get('/subscriptions', [SubscriptionController::class, 'index'])->name('subscriptions');
