@@ -1,0 +1,22 @@
+version: '3'
+services:
+  backend:
+    build: ./BACKEND
+    container_name: backend
+    image: youwatch-backend
+    ports:
+      - "8000:8000"
+  database:
+    image: mysql:latest
+    container_name: youwatch_database
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: youwatch
+    ports:
+      - "3306:3306"
+  frontend:
+    build: ./FRONTEND
+    container_name: frontend
+    image: youwatch-frontend
+    ports:
+      - "3000:3000"
